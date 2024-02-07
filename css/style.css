@@ -1,0 +1,23 @@
+.body {
+    background-color: rgb(154, 109, 244);
+}
+
+.board {
+    width: 60px;
+    /* height: 60px; */
+    text-align: center;
+    font-size: 30px;
+}
+
+.board td {
+    width: 70px;
+    height: 40px;
+    border: 2px solid black;
+    text-align: center;
+    /* font-size: 2.4em; */
+}
+
+.safe {
+    background-color: rgb(196, 243, 126);
+    transition: 1s;
+}
