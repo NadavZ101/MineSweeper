@@ -108,10 +108,8 @@ function renderBoard(board) {
     const elBoard = document.querySelector('.board')
     elBoard.innerHTML = strBoardHTML
 
-    window.addEventListener('contextmenu', function (e) {
-        // document.body.innerHTML
-        e.preventDefault()
-    }, false)
+    addEventListener("contextmenu", (event) => { })
+    oncontextmenu = (event) => { }
 
 
 }
