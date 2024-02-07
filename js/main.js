@@ -71,6 +71,7 @@ function renderBoard(board) {
     const elMinesCount = document.querySelector('.mines-count span')
     elMinesCount.innerText = strMinesCountHTML
 
+
     var strBoardHTML = ''
     for (let i = 0; i < board.length; i++) {
         strBoardHTML += '<tr>'
@@ -89,7 +90,7 @@ function renderBoard(board) {
 
                 } else if (cell.isMarked) {   // the reveal with right click - handle it
                     cell = MARKED
-                    className = `cell marked`
+                    className = `cell mark`
 
                 } else if (cell.minesAroundCount !== 0) {
                     cell = cell.minesAroundCount
@@ -101,28 +102,53 @@ function renderBoard(board) {
                 }
             }
 
-            strBoardHTML += `<td class="${className}" onclick="onCellClicked(this, +${i}, +${j})">${cell}</td>`
+            strBoardHTML += `<td class="${className}" data-i="${i}" data-j="${j}" onclick="onCellClicked(this, +${i}, +${j})" oncontextmenu="onCellMarked(event, this, +${i}, +${j})">${cell}</td>`
         }
         strBoardHTML += '</tr>'
     }
     const elBoard = document.querySelector('.board')
     elBoard.innerHTML = strBoardHTML
 
-    addEventListener("contextmenu", (event) => { })
-    oncontextmenu = (event) => { }
 
+
+
+    // const elLeftClick = document.getElementById("contextmenu")
+    // elLeftClick.addEventListener('contextmenu', function (e) {
+
+    //     onCellMarked(elLeftClick)
+
+    //     e.preventDefault();
+
+    // }, false);
 
 }
+
+// function leftClickMark() {
+//     const elLeftClick = document.getElementById("contextmenu")
+//     elLeftClick.addEventListener('contextmenu', function (e) {
+
+//         console.log("HELOOOOO")
+//         onCellMarked(elCell)
+
+//         e.preventDefault();
+//     }, false);
+// }
+
 
 // --------------------------- onCellClicked --------------------------- //
 function onCellClicked(elCell, i, j) {
 
-    if (gBoard[i][j].isMarked) return
+    // if (gBoard[i][j].isMarked) return // no undo?
 
     checkMine(elCell, i, j) // add a game over - when return true 
     checkMinesAroundCount(elCell, i, j)
     checkSafeCell(elCell, i, j)
-    onCellMarked(elCell)
+
+    // document.addEventListener('contextmenu', function (e) {
+    //     onCellMarked(elCell)
+    //     e.preventDefault();
+    // }, false);
+
     renderBoard(gBoard)
 
 }
@@ -146,7 +172,6 @@ function checkMinesAroundCount(elCell, i, j) {
         gBoard[i][j].isShow = true
         elCell.classList.remove('hidden')
         elCell.classList.add('mines-around')
-        // console.log('checkMinesAroundCount - elCell = ', elCell)
     }
 }
 
@@ -156,13 +181,11 @@ function checkSafeCell(elCell, i, j) {
         gBoard[i][j].isShow = true
         elCell.classList.remove('hidden')
         elCell.classList.add('safe')
-        // console.log('checkSafeCell - elCell = ', elCell)
-
         expandShown(gBoard, elCell, i, j)
     }
 }
 
-// -------------------------- expandShown -------------------------- //
+// --------------------------- expandShown -------------------------- //
 function expandShown(board, elCell, cellI, cellJ) {
     for (let i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= board.length) continue
@@ -191,20 +214,43 @@ function expandShown(board, elCell, cellI, cellJ) {
         isMine: false,
         isMarked: false
     }
-    */
+*/
 
-function onCellMarked(elCell) {
-    // document.addEventListener('contextmenu', event => {
-    //     event.preventDefault()
-    // })
+// ------------------------ onCellMarked ------------------------ //
 
-    elCell = document.addEventListener('click', (event) => {
-        if (event.button === 2) {
-            console.log("🖱 right click detected!")
-        }
-    })
+function onCellMarked(event, elCell, i, j) {
+
+    document.addEventListener('contextmenu', (event) => {
+        event.preventDefault()
+    }, false)
+
+    console.log(gBoard[+i][+j])
+
+
+    console.log('Checking 1-2 1-2')
+    console.log('elCell = ', elCell)
+
+
+    console.log(elCell.classList.contains('hidden'))
+
+    // for undo flag
+    if (elCell.classList.contains('hidden')) {
+        gBoard[+i][+j] = MARKED
+    }
+
+    if (elCell.classList.contains('hidden')) {
+        elCell.classList.remove('hidden')
+        elCell.classList.add('marked')
+
+        // } else if (elCell.classList.contains('mine')) {
+        //     elCell.classList.add('marked-suspect')
+
+
+
+
+    }
 }
-
+// ----------------------- checkGameOver ----------------------- //
 function checkGameOver() {
 
 }
