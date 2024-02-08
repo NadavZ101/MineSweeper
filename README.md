@@ -1,2 +1,2 @@
 # MineSweeper
-MineSweeper 16:00
+MineSweeper
