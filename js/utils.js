@@ -1,5 +1,6 @@
 'use strict'
 
+// -------------------------------- countNegMines -------------------------------- //
 function countNegMines(cellI, cellJ, board) {
     var neighborsCount = 0
     for (let i = cellI - 1; i <= cellI + 1; i++) {
@@ -15,6 +16,7 @@ function countNegMines(cellI, cellJ, board) {
     return neighborsCount
 }
 
+// ------------------------------ countNegSafeCells ------------------------------ //
 function countNegSafeCells(cellI, cellJ, board) {
     var neighborsCount = 0
     for (let i = cellI - 1; i <= cellI + 1; i++) {
@@ -29,4 +31,10 @@ function countNegSafeCells(cellI, cellJ, board) {
     }
     return neighborsCount
 }
+
+// -------------------------------- getRandomInt -------------------------------- //
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 

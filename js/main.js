@@ -43,9 +43,10 @@ function createBoard() {
             board[i][j] = cell
         }
     }
-    board[2][0].isMine = true
-    board[1][3].isMine = true
+    // board[2][0].isMine = true
+    // board[1][3].isMine = true
 
+    setRandomMines(board) // WORKING
     setMinesNegCount(board)
 
     console.table(board) // remove in final version
@@ -80,7 +81,6 @@ function renderBoard(board) {
             var cell = board[i][j]
             var className
 
-
             if (!cell.isShown && cell.isMarked) {
                 cell = MARKED
                 className = `cell hidden`
@@ -103,19 +103,13 @@ function renderBoard(board) {
                     className = `cell safe`
                 }
             }
-
-
             strBoardHTML += `<td class="${className}" data-i="${i}" data-j="${j}" onclick="onCellClicked(this, +${i}, +${j})" oncontextmenu="onCellMarked(event, this, +${i}, +${j})">${cell}</td>`
         }
         strBoardHTML += '</tr>'
     }
     const elBoard = document.querySelector('.board')
     elBoard.innerHTML = strBoardHTML
-
 }
-
-
-
 
 // --------------------------- onCellClicked --------------------------- //
 function onCellClicked(elCell, i, j) {
@@ -254,27 +248,29 @@ function showGameIsLost(elCell) {
 
 // ----------------------- checkGameIsWin ----------------------- //
 function checkGameIsWin() {
-
     if (gGame.markedCount === gLevel.MINES) {
-        console.log('check win - ', gGame.markedCount)
-
-        console.log('MAYBE WIN')
-
         for (let i = 0; i < gBoard.length; i++) {
             for (let j = 0; j < gBoard[0].length; j++) {
                 const cell = gBoard[i][j]
-
-                // console.log('cell - ', gBoard[i][j])
-
                 if (cell.isMine && !cell.isMarked) return
                 if (!cell.isShown && !cell.isMarked) return
             }
         }
-        console.log('WINNNNNNNNN')
+        console.log('WINNER!!!') // change it to smily
+    }
+}
+
+function setRandomMines(board) {
+
+    for (let i = 0; i < gLevel.MINES; i++) {
+        const randIdxI = getRandomInt(0, board.length - 1)
+        const randIdxJ = getRandomInt(0, board.length - 1)
+        board[randIdxI][randIdxJ].isMine = true
     }
 
-
 }
+
+
 
 /*
 const cell = {
