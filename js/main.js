@@ -28,6 +28,8 @@ var gGame = {
 
 // ----------------------------- onInit ----------------------------- //
 function onInit() {
+    gGame.shownCount = 0
+    gGame.markedCount = 0
     resetTimer()
     gGame.isOn = true
     strGameInfoHTML()
@@ -53,12 +55,6 @@ function createBoard() {
         }
     }
 
-
-    board[2][0].isMine = true
-    board[1][3].isMine = true
-    setMinesNegCount(board)
-
-    console.table(board) // remove in final version
     return board
 }
 
@@ -78,6 +74,8 @@ function renderBoard(board) {
     if (!gGame.isOn) return
 
     renderTimer()
+    const elFlags = document.querySelector('.flags span')
+    elFlags.innerText = gGame.markedCount
 
     var strBoardHTML = ''
     for (let i = 0; i < board.length; i++) {
@@ -124,11 +122,11 @@ function onCellClicked(elCell, i, j) {
         startTimer()
     }
 
-    // if (gFirstClick) {
-    //     setRandomMines(gBoard)
-    //     setMinesNegCount(gBoard)
-    //     gFirstClick = !gFirstClick
-    // }
+    if (gFirstClick) {
+        setRandomMines(gBoard)
+        setMinesNegCount(gBoard)
+        gFirstClick = !gFirstClick
+    }
 
     const cell = gBoard[i][j]
     if (cell.isMarked) return
@@ -216,7 +214,6 @@ function expandShown(board, elCell, cellI, cellJ) {
 }
 
 // -------------------------- onCellMarked -------------------------- //
-
 function onCellMarked(click, elCell, i, j) {
 
     document.addEventListener('contextmenu', (event) => {
@@ -233,7 +230,7 @@ function onCellMarked(click, elCell, i, j) {
 
     if (cell.isMarked) {
         elCell.innerHTML = MARKED
-        gGame.markedCount++ //need to show the num of flags? - only if have time
+        gGame.markedCount++
     }
 
     if (!cell.isMarked) {
@@ -243,6 +240,9 @@ function onCellMarked(click, elCell, i, j) {
         if (elCell.classList.contains('mines-around')) elCell.innerHTML = cell.minesAroundCount
         gGame.markedCount--
     }
+    strGameInfoHTML()
+    const elFlags = document.querySelector('.flags span')
+    elFlags.innerText = gGame.markedCount
 
     if (gGame.markedCount === gLevel.MINES) checkGameIsWin()
 }
@@ -264,10 +264,10 @@ function showGameIsLost(elCell) {
 
     clearInterval(gTimerIntervalId)
     renderTimer()
-
+    getLoseFace()
     strGameInfoHTML()
 
-    alert('GAME OVER - LOST') // Do it With the 'SAD SMILY'
+    alert('GAME OVER - LOST')
 }
 
 // ----------------------- checkGameIsWin ----------------------- //
@@ -282,7 +282,7 @@ function checkGameIsWin() {
         }
         clearInterval(gTimerIntervalId)
         renderTimer()
-        console.log('WINNER!!!') // change it to smily
+        alert('WINNER!!!')
     }
 }
 
@@ -354,15 +354,6 @@ function strGameInfoHTML() {
     }
 }
 
-function strRestartGame() {
-    const elSmiley = document.querySelector('.smiley')
-    const elSadSmiley = document.querySelector('.smile-sad')
-    const elWinnerSmiley = document.querySelector('.smile-winner')
-
-    // elSmiley.innerHTML = onInit()
-
-
-}
 
 
 
