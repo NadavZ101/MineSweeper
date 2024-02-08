@@ -30,14 +30,3 @@ function countNegSafeCells(cellI, cellJ, board) {
     return neighborsCount
 }
 
-
-/*
-    const cell = {
-        minesAroundCount: 2,
-        isShown: false,
-        isMine: false,
-        isMarked: false
-    }
-    */
-
-

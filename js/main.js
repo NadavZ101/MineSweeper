@@ -80,27 +80,35 @@ function renderBoard(board) {
             var cell = board[i][j]
             var className
 
-            if (!cell.isShow) {
+
+            if (!cell.isShown && cell.isMarked) {
+                cell = MARKED
+                className = `cell hidden`
+
+            } else if (!cell.isShown) {
                 cell = HIDDEN
                 className = `cell hidden`
+
             } else {
                 if (cell.isMine) {
                     cell = MINE
                     className = `cell mine`
-
-                } else if (cell.isMarked) {   // the reveal with right click - handle it
+                } else if (cell.isMarked) {
                     cell = MARKED
-                    className = `cell mark`
+                    className = `cell marked`
+                    console.log('VVVVV')
 
                 } else if (cell.minesAroundCount !== 0) {
                     cell = cell.minesAroundCount
                     className = `cell mines-around`
+                    console.log('ZZZZ')
 
                 } else if (cell.minesAroundCount === 0) {
                     cell = SAFE
                     className = `cell safe`
                 }
             }
+
 
             strBoardHTML += `<td class="${className}" data-i="${i}" data-j="${j}" onclick="onCellClicked(this, +${i}, +${j})" oncontextmenu="onCellMarked(event, this, +${i}, +${j})">${cell}</td>`
         }
@@ -109,67 +117,43 @@ function renderBoard(board) {
     const elBoard = document.querySelector('.board')
     elBoard.innerHTML = strBoardHTML
 
-
-
-
-    // const elLeftClick = document.getElementById("contextmenu")
-    // elLeftClick.addEventListener('contextmenu', function (e) {
-
-    //     onCellMarked(elLeftClick)
-
-    //     e.preventDefault();
-
-    // }, false);
-
 }
 
-// function leftClickMark() {
-//     const elLeftClick = document.getElementById("contextmenu")
-//     elLeftClick.addEventListener('contextmenu', function (e) {
 
-//         console.log("HELOOOOO")
-//         onCellMarked(elCell)
-
-//         e.preventDefault();
-//     }, false);
-// }
 
 
 // --------------------------- onCellClicked --------------------------- //
 function onCellClicked(elCell, i, j) {
 
-    // if (gBoard[i][j].isMarked) return // no undo?
+    const cell = gBoard[i][j]
+    if (cell.isMarked) return
 
     checkMine(elCell, i, j) // add a game over - when return true 
     checkMinesAroundCount(elCell, i, j)
     checkSafeCell(elCell, i, j)
 
-    // document.addEventListener('contextmenu', function (e) {
-    //     onCellMarked(elCell)
-    //     e.preventDefault();
-    // }, false);
-
     renderBoard(gBoard)
-
 }
 
 // ---------------------------- checkMine ---------------------------- //
 function checkMine(elCell, i, j) {
 
     if (gBoard[i][j].isMine) {
-        gBoard[i][j].isShow = true
+        gBoard[i][j].isShown = true
         elCell.classList.remove('hidden')
         elCell.classList.add('mine')
-        console.log('checkMine - elCell = ', elCell)
+
 
         // END THE GAME 
     }
+
 }
 
 // ---------------------- checkMinesAroundCount ---------------------- //
 function checkMinesAroundCount(elCell, i, j) {
+
     if (gBoard[i][j].minesAroundCount !== 0) {
-        gBoard[i][j].isShow = true
+        gBoard[i][j].isShown = true
         elCell.classList.remove('hidden')
         elCell.classList.add('mines-around')
     }
@@ -177,8 +161,9 @@ function checkMinesAroundCount(elCell, i, j) {
 
 // -------------------------- checkSafeCell -------------------------- //
 function checkSafeCell(elCell, i, j) {
+
     if (!gBoard[i][j].isMine && gBoard[i][j].minesAroundCount === 0) {
-        gBoard[i][j].isShow = true
+        gBoard[i][j].isShown = true
         elCell.classList.remove('hidden')
         elCell.classList.add('safe')
         expandShown(gBoard, elCell, i, j)
@@ -187,6 +172,9 @@ function checkSafeCell(elCell, i, j) {
 
 // --------------------------- expandShown -------------------------- //
 function expandShown(board, elCell, cellI, cellJ) {
+
+    if (gBoard[cellI][cellJ] === MARKED) return
+
     for (let i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= board.length) continue
         for (let j = cellJ - 1; j <= cellJ + 1; j++) {
@@ -194,65 +182,84 @@ function expandShown(board, elCell, cellI, cellJ) {
             if (j < 0 || j >= board[i].length) continue
 
             var currCell = board[i][j]
-            currCell.isShow = true
+
+            if (currCell.isMarked) continue
+
+            currCell.isShown = true
 
             if (currCell.minesAroundCount !== 0) {
                 elCell.classList.remove('hidden')
                 elCell.classList.add('mines-around')
+
             } else {
                 elCell.classList.remove('hidden')
                 elCell.classList.add('safe')
+
             }
         }
     }
 }
 
-/*
-    const cell = {
-        minesAroundCount: 2,
-        isShown: false,
-        isMine: false,
-        isMarked: false
-    }
-*/
-
 // ------------------------ onCellMarked ------------------------ //
 
-function onCellMarked(event, elCell, i, j) {
+function onCellMarked(click, elCell, i, j) {
 
     document.addEventListener('contextmenu', (event) => {
         event.preventDefault()
     }, false)
 
-    console.log(gBoard[+i][+j])
+    var cell = gBoard[i][j]
 
+    if (elCell.classList.contains('safe')) return
+    if (elCell.classList.contains('mines-around')) return
+    if (elCell.classList.contains('mine')) return
 
-    console.log('Checking 1-2 1-2')
-    console.log('elCell = ', elCell)
+    cell.isMarked = !cell.isMarked
 
-
-    console.log(elCell.classList.contains('hidden'))
-
-    // for undo flag
-    if (elCell.classList.contains('hidden')) {
-        gBoard[+i][+j] = MARKED
+    if (cell.isMarked) {
+        elCell.innerHTML = MARKED
+        gGame.markedCount++ //need to show the num of flags?
     }
 
-    if (elCell.classList.contains('hidden')) {
-        elCell.classList.remove('hidden')
-        elCell.classList.add('marked')
+    if (!cell.isMarked) {
+        if (elCell.classList.contains('hidden')) elCell.innerHTML = HIDDEN
+        if (elCell.classList.contains('safe')) elCell.innerHTML = SAFE
+        if (elCell.classList.contains('mine')) elCell.innerHTML = MINE
+        if (elCell.classList.contains('mines-around')) elCell.innerHTML = cell.minesAroundCount
+    }
 
-        // } else if (elCell.classList.contains('mine')) {
-        //     elCell.classList.add('marked-suspect')
-
-
-
-
+    if (cell.isMarked && cell.isMine) {
+        gGame.markedCount++
+        if (gGame.markedCount === gLevel.MINES) {
+            checkGameOver()
+        } else if (!cell.isMarked && cell.isMine) {
+            gGame.markedCount--
+        }
     }
 }
+
+
 // ----------------------- checkGameOver ----------------------- //
 function checkGameOver() {
 
+    // lose 
+    // for (let i = 0; i < gLevel.SIZE; i++) {
+    //     for (let j = 0; i < gLevel.SIZE; j++) {
+    //         const currCell = gBoard[i][j]
+
+    //         if (currCell.isShown) {
+
+    //         }
+
+    //     }
+
+    // }
 }
 
-
+/*
+const cell = {
+    minesAroundCount: 2,
+    isShown: false,
+    isMine: false,
+    isMarked: false
+} */
