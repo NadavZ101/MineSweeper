@@ -1,5 +1,11 @@
 'use strict'
 
+var gStartTime
+var gMins = 0
+var gSecs = 0
+var gMiliSecs = 0
+gMiliSecs = gMiliSecs.toString().padStart(3, '0')
+
 // -------------------------------- countNegMines -------------------------------- //
 function countNegMines(cellI, cellJ, board) {
     var neighborsCount = 0
@@ -37,4 +43,46 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+// -------------------------------- startTimer --------------------------------- //
+function startTimer() {
 
+    gStartTime = new Date().getTime()
+    gTimerIntervalId = setInterval(updateTimer, 10)
+}
+
+// -------------------------------- updateTimer --------------------------------- //
+function updateTimer() {
+    const currTime = Date.now()
+    var elapsedTime = currTime - gStartTime
+
+    gMins = Math.floor(elapsedTime / (1000 * 60))
+    gSecs = Math.floor((elapsedTime % (1000 * 60)) / 1000)
+    gMiliSecs = Math.floor(elapsedTime % 1000)
+    gMiliSecs = gMiliSecs.toString().padStart(3, '0')
+
+    renderTimer()
+}
+
+// -------------------------------- renderTimer --------------------------------- //
+function resetTimer() {
+    clearInterval(gTimerIntervalId)
+    gTimerIntervalId = null
+    gStartTime = 0
+    gMins = 0
+    gSecs = 0
+    gMiliSecs = 0
+    gMiliSecs = gMiliSecs.toString().padStart(3, '0')
+    renderTimer()
+}
+
+
+// -------------------------------- renderTimer --------------------------------- //
+function renderTimer() {
+    var strHTMLStopTimer = ''
+
+    strHTMLStopTimer +=
+        `<div class="timer">${gMins}${gSecs}:${gMiliSecs}</div>`
+
+    const elStopWatch = document.querySelector('.timer')
+    elStopWatch.innerHTML = strHTMLStopTimer
+}
