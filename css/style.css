@@ -2,6 +2,12 @@
     background-color: rgb(154, 109, 244);
 }
 
+.btn {
+    width: 50px;
+    height: 30px;
+    /* margin: auto; */
+}
+
 .board {
     width: 60px;
     /* height: 60px; */
@@ -17,10 +23,10 @@
     /* font-size: 2.4em; */
 }
 
-/* .safe {
-    background-color: rgb(196, 243, 126);
-    transition: 1s;
-} */
+.lives {
+    width: 3px;
+    padding: 10px;
+}
 
 .modal {
     background-color: rgb(240, 109, 109);
