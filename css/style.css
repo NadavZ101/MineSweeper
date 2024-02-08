@@ -17,7 +17,17 @@
     /* font-size: 2.4em; */
 }
 
-.safe {
+/* .safe {
     background-color: rgb(196, 243, 126);
     transition: 1s;
+} */
+
+.modal {
+    background-color: rgb(240, 109, 109);
+    border: 3px solid white;
+    width: 270px;
+    padding: 20px;
+    position: absolute;
+    top: 32%;
+    left: 35%;
 }
