@@ -87,33 +87,31 @@ h2 {
 }
 
 .board td {
-    box-sizing: border-box;
     width: 80px;
     height: 60px;
-    border: 2px solid black;
+    border: 1px solid black;
+    border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     /* font-size: 2.4em; */
 }
 
-.board-8x8 td {
-    box-sizing: border-box;
+/* .board-8x8 td {
     width: 80px;
-    height: 30px;
+    height: 60px;
     /* margin-left: auto;
     margin-right: auto; */
-    text-align: center;
-}
+/* text-align: center;
+} */
 
-.board-12x12 td {
-    box-sizing: border-box;
+/* .board-12x12 td {
     width: 80px;
-    height: 30px;
+    height: 60px;
     /* margin-left: auto;
     margin-right: auto; */
-    text-align: center;
-}
+/* text-align: center;
+} */
 
 footer {
     text-align: center;

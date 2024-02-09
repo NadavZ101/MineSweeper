@@ -97,3 +97,8 @@ function playKaboomSound() {
     const kaboomSound = new Audio('mp3/kaboom.mp3')
     kaboomSound.play()
 }
+
+function playGameOverSound() {
+    const gameOverSound = new Audio('mp3/gameOver.mp3')
+    gameOverSound.play()
+}

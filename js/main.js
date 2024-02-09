@@ -143,7 +143,6 @@ function checkMine(elCell, i, j) {
         gLives--
         strGameInfoHTML()
         playKaboomSound()
-        // alert('you are on a mine')
 
         if (gLives === 0) {
             cell.isShown = true
@@ -159,7 +158,7 @@ function checkMinesAroundCount(elCell, i, j) {
 
     const cell = gBoard[i][j]
 
-    if (cell.minesAroundCount !== 0) {
+    if (!cell.isMine && cell.minesAroundCount !== 0) {
         cell.isShown = true
         elCell.classList.remove('hidden')
         elCell.classList.add('mines-around')
@@ -264,7 +263,7 @@ function showGameIsLost(elCell) {
     // getLoseFace()
     strGameInfoHTML()
 
-    alert('GAME OVER - LOST')
+    setTimeout(playGameOverSound, 3000)
 }
 
 // ----------------------- checkGameIsWin ----------------------- //
@@ -301,15 +300,15 @@ function setRandomMines(board) {
 
 // ---------------------- changeBoardSize ---------------------- //
 function changeBoardSize(boardSize) {
-    const board = document.querySelector('.board')
+    // const board = document.querySelector('.board')
 
-    board.classList.remove('board-8x8', 'board-12x12')
+    // board.classList.remove('board-8x8', 'board-12x12')
 
-    if (boardSize === 8) {
-        board.classList.add('board-8x8')
-    } else if (boardSize === 12) {
-        board.classList.add('board-12x12')
-    }
+    // if (boardSize === 8) {
+    //     board.classList.add('board-8x8')
+    // } else if (boardSize === 12) {
+    //     board.classList.add('board-12x12')
+    // }
 
     gLevel.SIZE = boardSize
 
@@ -320,6 +319,7 @@ function changeBoardSize(boardSize) {
     } else if (gLevel.SIZE === 12) {
         gLevel.MINES = 32
     }
+    gFirstClick = true
 
     strGameInfoHTML()
 
