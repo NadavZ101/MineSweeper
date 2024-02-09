@@ -115,11 +115,8 @@ function renderBoard(board) {
 function onCellClicked(elCell, i, j) {
 
     if (!gTimerIntervalId) {
-        console.log('onCellClick - gTimerIntervalId', gTimerIntervalId)
         startTimer()
     }
-
-    // console.log('gFirstClick ', gFirstClick)
 
     if (gFirstClick) {
         setRandomMines(elCell, gBoard)

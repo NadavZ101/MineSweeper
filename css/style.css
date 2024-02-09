@@ -2,7 +2,7 @@ body {
     background-color: rgb(203, 202, 205);
     font-family: Tahoma;
     text-align: center;
-    /* background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3374&q=80'); */
+    background-image: url('img/backgroudPic.jpg');
 }
 
 .container {
