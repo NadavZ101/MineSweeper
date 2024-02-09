@@ -80,9 +80,6 @@ h2 {
 .btn-smiley:hover {}
 
 .board {
-    /* width: 60px; */
-    /* height: 60px; */
-    /* font-size: 20px;*/
     display: inline-block;
 }
 
@@ -97,21 +94,15 @@ h2 {
     /* font-size: 2.4em; */
 }
 
-/* .board-8x8 td {
-    width: 80px;
-    height: 60px;
-    /* margin-left: auto;
-    margin-right: auto; */
-/* text-align: center;
-} */
+.board td:hover {
+    background-color: rgb(233, 193, 141);
+    transition: 0.5s;
+}
 
-/* .board-12x12 td {
-    width: 80px;
-    height: 60px;
-    /* margin-left: auto;
-    margin-right: auto; */
-/* text-align: center;
-} */
+.safe {
+    background-color: rgb(148, 232, 23);
+}
+
 
 footer {
     text-align: center;

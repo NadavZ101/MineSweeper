@@ -3,7 +3,7 @@
 const HIDDEN = ' '
 const MINE = '🧨'
 const MARKED = '🏁'
-const SAFE = '🟩'
+const SAFE = ' '
 
 const gFullLives = ' 🌟🌟🌟'
 const gTwoLives = ' 🌟🌟'
@@ -115,14 +115,17 @@ function renderBoard(board) {
 function onCellClicked(elCell, i, j) {
 
     if (!gTimerIntervalId) {
+        console.log('onCellClick - gTimerIntervalId', gTimerIntervalId)
         startTimer()
     }
 
+    // console.log('gFirstClick ', gFirstClick)
+
     if (gFirstClick) {
-        setRandomMines(gBoard)
+        setRandomMines(elCell, gBoard)
         setMinesNegCount(gBoard)
         gFirstClick = !gFirstClick
-        // renderBoard(gBoard) //
+        renderBoard(gBoard) //
     }
 
     const cell = gBoard[i][j]
@@ -283,33 +286,27 @@ function checkGameIsWin() {
 }
 
 // ----------------------- setRandomMines ----------------------- //
-function setRandomMines(board) {
+function setRandomMines(elCell, board) {
+    const elCellI = +elCell.dataset.i
+    const elCellJ = +elCell.dataset.j
+
     for (let i = 0; i < gLevel.MINES; i++) {
-        var randIdxI
-        var randIdxJ
+        var randIdxI = getRandomInt(0, board.length - 1)
+        var randIdxJ = getRandomInt(0, board.length - 1)
 
-        while (true) {
-            randIdxI = getRandomInt(0, board.length - 1)
-            randIdxJ = getRandomInt(0, board.length - 1)
-
-            if (!board[randIdxI][randIdxJ].isMine) break
+        if (elCellI !== randIdxI || elCellJ !== randIdxJ) {
+            if (!board[randIdxI][randIdxJ].isMine) {
+                board[randIdxI][randIdxJ].isMine = true
+            } else {
+                i--
+                continue
+            }
         }
-        board[randIdxI][randIdxJ].isMine = true
     }
 }
 
 // ---------------------- changeBoardSize ---------------------- //
 function changeBoardSize(boardSize) {
-    // const board = document.querySelector('.board')
-
-    // board.classList.remove('board-8x8', 'board-12x12')
-
-    // if (boardSize === 8) {
-    //     board.classList.add('board-8x8')
-    // } else if (boardSize === 12) {
-    //     board.classList.add('board-12x12')
-    // }
-
     gLevel.SIZE = boardSize
 
     if (gLevel.SIZE === 4) {
@@ -323,7 +320,7 @@ function changeBoardSize(boardSize) {
 
     strGameInfoHTML()
 
-    onInit()
+    restartGame()
 }
 
 // ---------------------- strGameInfoHTML ---------------------- //
