@@ -72,9 +72,8 @@ function resetTimer() {
     gSecs = 0
     gMiliSecs = 0
     gMiliSecs = gMiliSecs.toString().padStart(3, '0')
-    renderTimer()
+    // renderTimer()
 }
-
 
 // -------------------------------- renderTimer --------------------------------- //
 function renderTimer() {
@@ -85,4 +84,16 @@ function renderTimer() {
 
     const elStopWatch = document.querySelector('.timer')
     elStopWatch.innerHTML = strHTMLStopTimer
+}
+
+// ------------------------------ playWinnerSound ------------------------------- //
+function playWinnerSound() {
+    const winnerSound = new Audio('mp3/winner.mp3')
+    winnerSound.play()
+}
+
+// ------------------------------ playKaboomSound ------------------------------- //
+function playKaboomSound() {
+    const kaboomSound = new Audio('mp3/kaboom.mp3')
+    kaboomSound.play()
 }

@@ -28,9 +28,6 @@ var gGame = {
 
 // ----------------------------- onInit ----------------------------- //
 function onInit() {
-    gGame.shownCount = 0
-    gGame.markedCount = 0
-    resetTimer()
     gGame.isOn = true
     strGameInfoHTML()
     gBoard = createBoard()
@@ -54,7 +51,6 @@ function createBoard() {
             board[i][j] = cell
         }
     }
-
     return board
 }
 
@@ -126,6 +122,7 @@ function onCellClicked(elCell, i, j) {
         setRandomMines(gBoard)
         setMinesNegCount(gBoard)
         gFirstClick = !gFirstClick
+        // renderBoard(gBoard) //
     }
 
     const cell = gBoard[i][j]
@@ -145,7 +142,8 @@ function checkMine(elCell, i, j) {
     if (cell.isMine) {
         gLives--
         strGameInfoHTML()
-        alert('you are on a mine')
+        playKaboomSound()
+        // alert('you are on a mine')
 
         if (gLives === 0) {
             cell.isShown = true
@@ -207,7 +205,6 @@ function expandShown(board, elCell, cellI, cellJ) {
             } else {
                 elCell.classList.remove('hidden')
                 elCell.classList.add('safe')
-
             }
         }
     }
@@ -264,7 +261,7 @@ function showGameIsLost(elCell) {
 
     clearInterval(gTimerIntervalId)
     renderTimer()
-    getLoseFace()
+    // getLoseFace()
     strGameInfoHTML()
 
     alert('GAME OVER - LOST')
@@ -282,7 +279,7 @@ function checkGameIsWin() {
         }
         clearInterval(gTimerIntervalId)
         renderTimer()
-        alert('WINNER!!!')
+        playWinnerSound()
     }
 }
 
@@ -347,11 +344,20 @@ function strGameInfoHTML() {
         elLives.innerHTML = gTwoLives
     } else if (gLives === 1) {
         elLives.innerHTML = gLastLive
-    }
-
-    if (!gGame.isOn) {
+    } else if (!gGame.isOn) {
         elLives.innerHTML = zeroLives
     }
+
+}
+
+function restartGame() {
+    gLives = 3
+    gGame.shownCount = 0
+    gGame.markedCount = 0
+    gFirstClick = true
+    resetTimer()
+    onInit()
+
 }
 
 
