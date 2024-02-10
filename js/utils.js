@@ -72,7 +72,6 @@ function resetTimer() {
     gSecs = 0
     gMiliSecs = 0
     gMiliSecs = gMiliSecs.toString().padStart(3, '0')
-    // renderTimer()
 }
 
 // -------------------------------- renderTimer --------------------------------- //

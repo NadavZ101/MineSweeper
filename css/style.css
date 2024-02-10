@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(203, 202, 205);
+    /* background-color: rgb(203, 202, 205); */
     font-family: Tahoma;
     text-align: center;
     background-image: url('../img/jonatan-pie-3l3RwQdHRHg-unsplash.jpg');
@@ -14,34 +14,50 @@ body {
 h1 {
     font-family: 'Courier New', Courier, monospace;
     font-size: 40px;
-    font-color: white;
+    color: rgba(46, 238, 235, 0.709);
 }
 
 .btn4 {
     width: 80px;
     height: px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
+    font-size: 25px;
+    color: white;
     font: bold;
     text-align: center;
+    font-style: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+
 }
 
 .btn8 {
     width: 80px;
     height: px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
+    font-size: 25px;
+    color: white;
     font: bold;
     text-align: center;
+    font-style: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .btn12 {
     width: 80px;
     height: px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
+    font-size: 25px;
+    color: white;
     font: bold;
     text-align: center;
+    font-style: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 h2 {
@@ -104,7 +120,7 @@ h2 {
     text-align: center;
     color: aliceblue;
     font-style: bold;
-    /* font-size: 2.4em; */
+    font-size: 2.4em;
 }
 
 .board td:hover {
