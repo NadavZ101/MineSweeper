@@ -2,7 +2,9 @@ body {
     background-color: rgb(203, 202, 205);
     font-family: Tahoma;
     text-align: center;
-    background-image: url('img/backgroudPic.jpg');
+    background-image: url('../img/jonatan-pie-3l3RwQdHRHg-unsplash.jpg');
+    background-size: cover;
+    color: rgba(228, 13, 239, 0.979);
 }
 
 .container {
@@ -12,6 +14,7 @@ body {
 h1 {
     font-family: 'Courier New', Courier, monospace;
     font-size: 40px;
+    font-color: white;
 }
 
 .btn4 {
@@ -48,17 +51,25 @@ h2 {
 }
 
 
-.btn-smiley {
-    opacity: 10;
+.btn-smiley,
+.smiley-winner {
+    background: none;
+    border: none;
+}
 
+.btn-smiley::before {
+    content: "🤪";
+    font-size: 40px;
 }
 
 .smiley-sad::before {
-    content: "😩"
+    content: "😩";
+    font-size: 40px;
 }
 
 .smiley-winner::before {
-    content: "😎"
+    content: "😎";
+    font-size: 40px;
 }
 
 .lives {
@@ -86,16 +97,18 @@ h2 {
 .board td {
     width: 80px;
     height: 60px;
-    border: 1px solid black;
-    border-radius: 5px;
+    border: 3px solid rgb(156, 152, 152);
+    border-radius: 7px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    color: aliceblue;
+    font-style: bold;
     /* font-size: 2.4em; */
 }
 
 .board td:hover {
-    background-color: rgb(233, 193, 141);
+    background-color: rgb(242, 154, 98);
     transition: 0.5s;
 }
 

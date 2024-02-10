@@ -5,9 +5,9 @@ const MINE = '🧨'
 const MARKED = '🏁'
 const SAFE = ' '
 
-const gFullLives = ' 🌟🌟🌟'
-const gTwoLives = ' 🌟🌟'
-const gLastLive = ' 🌟'
+const gFullLives = ' 💚💚💚'
+const gTwoLives = ' 💚💚'
+const gLastLive = ' 💚'
 
 var gBoard
 var gFirstClick = true
@@ -255,12 +255,11 @@ function showGameIsLost(elCell) {
             }
         }
     }
+    setLosingSmiley()
     renderBoard(gBoard)
     gGame.isOn = !gGame.isOn
-
     clearInterval(gTimerIntervalId)
     renderTimer()
-    // getLoseFace()
     strGameInfoHTML()
 
     setTimeout(playGameOverSound, 3000)
@@ -276,6 +275,7 @@ function checkGameIsWin() {
                 if (!cell.isShown && !cell.isMarked) return
             }
         }
+        setWinningSmiley()
         clearInterval(gTimerIntervalId)
         renderTimer()
         playWinnerSound()
@@ -344,15 +344,40 @@ function strGameInfoHTML() {
 
 }
 
+// ---------------------- restartGame ----------------------- //
 function restartGame() {
     gLives = 3
     gGame.shownCount = 0
     gGame.markedCount = 0
     gFirstClick = true
+    setPlayingSmiley()
     resetTimer()
     onInit()
-
 }
+
+// -------------------- setWinningSmiley -------------------- //
+function setWinningSmiley() {
+    const elSmileyBtn = document.querySelector('.btn-smiley')
+    elSmileyBtn.classList.toggle('smiley-winner')
+}
+
+// -------------------- setPlayingSmiley -------------------- //
+function setPlayingSmiley() {
+    const elSmileyBtn = document.querySelector('.btn-smiley')
+    elSmileyBtn.classList.remove('smiley-winner')
+    elSmileyBtn.classList.remove('smiley-sad')
+}
+
+// -------------------- setLosingSmiley -------------------- //
+function setLosingSmiley() {
+    const elSmileyBtn = document.querySelector('.btn-smiley')
+    elSmileyBtn.classList.toggle('smiley-sad')
+}
+
+
+
+
+
 
 
 
